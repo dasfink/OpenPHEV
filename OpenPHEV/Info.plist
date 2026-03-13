@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>NSBluetoothAlwaysUsageDescription</key>
+    <string>OpenPHEV uses Bluetooth to connect to your BM6 battery sensor and Veepeak OBD-II adapter to monitor your vehicle's health. No data leaves your device.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>OpenPHEV needs Bluetooth to read your vehicle's battery and diagnostic data.</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>bluetooth-central</string>
+    </array>
+</dict>
+</plist>
