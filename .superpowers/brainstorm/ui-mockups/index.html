@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenPHEV — UI/UX Options</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    color: #e0e0e0;
+    font-family: 'IBM Plex Sans', -apple-system, sans-serif;
+    padding: 40px;
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .subtitle {
+    color: #888;
+    font-size: 15px;
+    margin-bottom: 40px;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .section-desc {
+    color: #888;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .options-row {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 56px;
+    flex-wrap: wrap;
+  }
+
+  .option-card {
+    flex: 1;
+    min-width: 320px;
+    max-width: 400px;
+    border: 2px solid #222;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s, transform 0.15s;
+  }
+
+  .option-card:hover {
+    border-color: #444;
+    transform: translateY(-2px);
+  }
+
+  .option-card.selected {
+    border-color: #fff;
+  }
+
+  .option-label {
+    padding: 12px 16px;
+    background: #111;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid #222;
+  }
+
+  .option-letter {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #222;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .option-card.selected .option-letter {
+    background: #fff;
+    color: #000;
+  }
+
+  .option-desc {
+    padding: 10px 16px;
+    font-size: 12px;
+    color: #888;
+    background: #0d0d0d;
+    border-bottom: 1px solid #1a1a1a;
+  }
+
+  /* ========== PHONE MOCKUP ========== */
+  .phone {
+    width: 320px;
+    margin: 0 auto;
+    background: #000;
+    border-radius: 36px;
+    padding: 12px;
+    position: relative;
+  }
+
+  .phone-screen {
+    background: #0a0a0a;
+    border-radius: 28px;
+    overflow: hidden;
+    min-height: 580px;
+  }
+
+  .phone-notch {
+    width: 100px;
+    height: 24px;
+    background: #000;
+    border-radius: 0 0 16px 16px;
+    margin: 0 auto;
+  }
+
+  .screen-content {
+    padding: 20px;
+  }
+
+  /* ========== DESIGN TOKENS ========== */
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+
+  .status-good { color: #4ade80; }
+  .status-warn { color: #facc15; }
+  .status-critical { color: #f97316; }
+  .status-danger { color: #ef4444; }
+  .muted { color: #666; }
+  .dimmed { color: #888; }
+
+  /* ========== OPTION A: TYPOGRAPHIC DENSITY ========== */
+  .opt-a .hero-voltage {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 64px;
+    font-weight: 700;
+    letter-spacing: -3px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .opt-a .hero-unit {
+    font-size: 28px;
+    font-weight: 400;
+    opacity: 0.5;
+  }
+
+  .opt-a .hero-meta {
+    font-size: 13px;
+    color: #666;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+  }
+
+  .opt-a .sparkline-container {
+    margin-bottom: 28px;
+  }
+
+  .opt-a .sparkline-label {
+    font-size: 11px;
+    color: #444;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  .opt-a .separator {
+    height: 1px;
+    background: #1a1a1a;
+    margin: 24px 0;
+  }
+
+  .opt-a .data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+  }
+
+  .opt-a .data-label {
+    font-size: 12px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .opt-a .data-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 16px;
+    font-weight: 600;
+    color: #ccc;
+  }
+
+  .opt-a .section-title {
+    font-size: 11px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+    margin-top: 28px;
+    margin-bottom: 12px;
+  }
+
+  .opt-a .ev-disconnected {
+    font-size: 13px;
+    color: #333;
+    font-family: 'IBM Plex Mono', monospace;
+    padding: 16px 0;
+    border-top: 1px solid #1a1a1a;
+    margin-top: 8px;
+  }
+
+  .opt-a .ev-disconnected span {
+    color: #555;
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: #333;
+  }
+
+  /* ========== OPTION B: CARD STRUCTURE ========== */
+  .opt-b .hero-voltage {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 56px;
+    font-weight: 700;
+    letter-spacing: -2px;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 2px;
+  }
+
+  .opt-b .hero-meta {
+    font-size: 13px;
+    color: #666;
+    font-family: 'IBM Plex Mono', monospace;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .opt-b .card {
+    background: #111;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+  }
+
+  .opt-b .card-header {
+    font-size: 11px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .opt-b .stat-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+  }
+
+  .opt-b .stat-label {
+    font-size: 13px;
+    color: #666;
+  }
+
+  .opt-b .stat-value {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #ccc;
+    font-weight: 500;
+  }
+
+  .opt-b .ev-card {
+    background: #0d0d0d;
+    border: 1px dashed #222;
+  }
+
+  .opt-b .ev-connect-hint {
+    font-size: 12px;
+    color: #444;
+    text-align: center;
+    padding: 8px 0;
+  }
+
+  /* ========== OPTION C: INFORMATION BANDS ========== */
+  .opt-c .band {
+    padding: 16px 0;
+    border-bottom: 1px solid #111;
+  }
+
+  .opt-c .band:last-child {
+    border-bottom: none;
+  }
+
+  .opt-c .band-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+
+  .opt-c .band-title {
+    font-size: 11px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 600;
+  }
+
+  .opt-c .band-status {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .opt-c .hero-line {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+
+  .opt-c .hero-voltage {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -2px;
+    line-height: 1;
+  }
+
+  .opt-c .hero-secondary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 14px;
+    color: #555;
+  }
+
+  .opt-c .inline-stats {
+    display: flex;
+    gap: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #555;
+  }
+
+  .opt-c .inline-stats strong {
+    color: #888;
+    font-weight: 500;
+  }
+
+  .opt-c .compact-row {
+    display: flex;
+    gap: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    flex-wrap: wrap;
+  }
+
+  .opt-c .compact-item {
+    color: #555;
+  }
+
+  .opt-c .compact-item strong {
+    color: #ccc;
+    font-weight: 600;
+  }
+
+  .opt-c .ev-prompt {
+    font-size: 12px;
+    color: #333;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  /* ========== SVG SPARKLINES ========== */
+  svg.sparkline {
+    width: 100%;
+    height: 40px;
+    display: block;
+  }
+
+  svg.sparkline .line {
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  svg.sparkline .threshold {
+    stroke-dasharray: 4 4;
+    stroke-width: 0.5;
+  }
+
+  svg.sparkline .threshold-warn { stroke: #facc1540; }
+  svg.sparkline .threshold-crit { stroke: #f9731640; }
+
+  /* ========== EV CONNECTED STATE ========== */
+  .ev-health-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .ev-health-item {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .ev-health-item .label {
+    font-size: 10px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .ev-health-item .value {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ccc;
+    letter-spacing: -0.5px;
+  }
+
+  .ev-health-item .value.good { color: #4ade80; }
+
+  /* ========== COMPARISON HEADER ========== */
+  .compare-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 56px;
+    margin-bottom: 8px;
+  }
+
+  .compare-header h2 {
+    margin: 0;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+  }
+
+  .badge-ev {
+    background: #1a3a1a;
+    color: #4ade80;
+  }
+</style>
+</head>
+<body>
+
+<h1>OpenPHEV — UI/UX Direction</h1>
+<p class="subtitle">Bauhaus form-follows-function + Tufte data-ink ratio. Monochrome UI. Color is data. Single scroll.</p>
+
+<!-- ========================================== -->
+<!-- OPTION A -->
+<!-- ========================================== -->
+<h2>Option A: Typographic Purity</h2>
+<p class="section-desc">Maximum Tufte. The number IS the interface. No chrome, no boxes, no cards. Just typography, whitespace, and a single sparkline. Data breathes on the page like a printed data table.</p>
+
+<div class="options-row">
+  <div class="option-card">
+    <div class="option-label"><div class="option-letter">A</div> 12V Monitoring (BM6 connected)</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="screen-content opt-a">
+          <div class="hero-voltage status-good">12.63<span class="hero-unit">V</span></div>
+          <div class="hero-meta">22&deg;C &nbsp;&middot;&nbsp; 94% &nbsp;&middot;&nbsp; Charging</div>
+
+          <div class="sparkline-container">
+            <div class="sparkline-label">24 HOURS</div>
+            <svg class="sparkline" viewBox="0 0 280 40" preserveAspectRatio="none">
+              <line class="threshold threshold-warn" x1="0" y1="24" x2="280" y2="24"/>
+              <line class="threshold threshold-crit" x1="0" y1="34" x2="280" y2="34"/>
+              <polyline class="line" stroke="#4ade80" points="0,18 20,17 40,16 60,18 80,20 100,22 120,24 140,26 160,25 180,22 200,18 220,14 240,10 260,8 280,6"/>
+              <circle cx="280" cy="6" r="3" fill="#4ade80"/>
+              <text x="260" y="3" fill="#4ade80" font-size="7" font-family="IBM Plex Mono" font-weight="600">12.63</text>
+            </svg>
+          </div>
+
+          <div class="separator"></div>
+
+          <div class="data-row">
+            <span class="data-label">Today min</span>
+            <span class="data-value">12.31</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Today max</span>
+            <span class="data-value">12.71</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">7-day avg</span>
+            <span class="data-value">12.48</span>
+          </div>
+
+          <div class="section-title">EV Battery</div>
+          <div class="ev-disconnected">
+            Veepeak not connected &nbsp;&middot;&nbsp; <span>Scan</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-desc">Pure information. No decoration. Tufte would approve. The hierarchy is: number &rarr; sparkline &rarr; stats &rarr; EV section below the fold.</div>
+  </div>
+
+  <div class="option-card">
+    <div class="option-label"><div class="option-letter">A</div> EV Battery Health (Veepeak connected, Tier 2)</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="screen-content opt-a">
+          <div class="hero-voltage status-good">12.63<span class="hero-unit">V</span></div>
+          <div class="hero-meta">22&deg;C &nbsp;&middot;&nbsp; 94% &nbsp;&middot;&nbsp; Charging</div>
+
+          <div class="sparkline-container">
+            <div class="sparkline-label">24 HOURS</div>
+            <svg class="sparkline" viewBox="0 0 280 40" preserveAspectRatio="none">
+              <line class="threshold threshold-warn" x1="0" y1="24" x2="280" y2="24"/>
+              <line class="threshold threshold-crit" x1="0" y1="34" x2="280" y2="34"/>
+              <polyline class="line" stroke="#4ade80" points="0,18 20,17 40,16 60,18 80,20 100,22 120,24 140,26 160,25 180,22 200,18 220,14 240,10 260,8 280,6"/>
+              <circle cx="280" cy="6" r="3" fill="#4ade80"/>
+            </svg>
+          </div>
+
+          <div class="separator"></div>
+
+          <div class="section-title">EV Battery</div>
+
+          <div class="data-row">
+            <span class="data-label">SOH</span>
+            <span class="data-value status-good">96.2%</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Pack</span>
+            <span class="data-value">356.4V &nbsp; 12.3A</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">SOC</span>
+            <span class="data-value">78%</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Cells</span>
+            <span class="data-value">3.71 &ndash; 3.73V &nbsp; <span class="muted">&Delta;0.02</span></span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Temp</span>
+            <span class="data-value">24 &ndash; 27&deg;C &nbsp; <span class="muted">&Delta;3</span></span>
+          </div>
+
+          <div class="section-title" style="margin-top: 20px;">Diagnostics</div>
+          <div class="data-row">
+            <span class="data-label">DTCs</span>
+            <span class="data-value" style="color: #555;">0 codes</span>
+          </div>
+          <div class="data-row">
+            <span class="data-label">Live</span>
+            <span class="data-value" style="color: #555;">8 PIDs streaming</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-desc">Same layout, scrolled down — EV health data appears when Veepeak connects. Everything in the same typographic system. No cards, no boxes.</div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OPTION B -->
+<!-- ========================================== -->
+<h2>Option B: Structured Cards</h2>
+<p class="section-desc">Bauhaus geometric structure. Same monochrome palette and semantic color, but data grouped into contained cards. Clearer visual separation between 12V / EV / Diagnostics. Slightly more chrome, but structured.</p>
+
+<div class="options-row">
+  <div class="option-card">
+    <div class="option-label"><div class="option-letter">B</div> 12V Monitoring (BM6 connected)</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="screen-content opt-b">
+          <div class="hero-voltage status-good">12.63<span style="font-size: 24px; opacity: 0.5;">V</span></div>
+          <div class="hero-meta">22&deg;C &nbsp;&middot;&nbsp; 94% &nbsp;&middot;&nbsp; Charging</div>
+
+          <div class="card">
+            <div class="card-header">24-Hour Trend</div>
+            <svg class="sparkline" viewBox="0 0 280 40" preserveAspectRatio="none">
+              <line class="threshold threshold-warn" x1="0" y1="24" x2="280" y2="24"/>
+              <line class="threshold threshold-crit" x1="0" y1="34" x2="280" y2="34"/>
+              <polyline class="line" stroke="#4ade80" points="0,18 20,17 40,16 60,18 80,20 100,22 120,24 140,26 160,25 180,22 200,18 220,14 240,10 260,8 280,6"/>
+              <circle cx="280" cy="6" r="3" fill="#4ade80"/>
+            </svg>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Statistics</div>
+            <div class="stat-row">
+              <span class="stat-label">Today min</span>
+              <span class="stat-value">12.31V</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Today max</span>
+              <span class="stat-value">12.71V</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">7-day average</span>
+              <span class="stat-value">12.48V</span>
+            </div>
+          </div>
+
+          <div class="card ev-card">
+            <div class="card-header">EV Battery</div>
+            <div class="ev-connect-hint">Connect Veepeak to scan</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-desc">Cards give visual containment. Each section is a discrete object. More structured than A, easier to scan, but slightly more "UI" than pure data.</div>
+  </div>
+
+  <div class="option-card">
+    <div class="option-label"><div class="option-letter">B</div> EV Battery Health (Veepeak connected, Tier 2)</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="screen-content opt-b">
+          <div class="hero-voltage status-good">12.63<span style="font-size: 24px; opacity: 0.5;">V</span></div>
+          <div class="hero-meta">22&deg;C &nbsp;&middot;&nbsp; 94% &nbsp;&middot;&nbsp; Charging</div>
+
+          <div class="card">
+            <div class="card-header">EV Battery Health</div>
+            <div class="ev-health-grid">
+              <div class="ev-health-item">
+                <div class="label">SOH</div>
+                <div class="value good">96.2%</div>
+              </div>
+              <div class="ev-health-item">
+                <div class="label">SOC</div>
+                <div class="value">78%</div>
+              </div>
+              <div class="ev-health-item">
+                <div class="label">Pack</div>
+                <div class="value">356.4V</div>
+              </div>
+              <div class="ev-health-item">
+                <div class="label">Current</div>
+                <div class="value">12.3A</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Cell Balance</div>
+            <div class="stat-row">
+              <span class="stat-label">Min cell</span>
+              <span class="stat-value">3.71V</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Max cell</span>
+              <span class="stat-value">3.73V</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Delta</span>
+              <span class="stat-value status-good">0.02V</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Temp range</span>
+              <span class="stat-value">24 &ndash; 27&deg;C</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">Diagnostics</div>
+            <div class="stat-row">
+              <span class="stat-label">Trouble codes</span>
+              <span class="stat-value" style="color: #555;">None</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-label">Live data</span>
+              <span class="stat-value" style="color: #555;">8 PIDs &middot; streaming</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-desc">EV data in a 2&times;2 grid card feels dense but organized. Cell balance and diagnostics in their own cards below. Bauhaus containment.</div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- OPTION C -->
+<!-- ========================================== -->
+<h2>Option C: Information Bands</h2>
+<p class="section-desc">Hybrid approach. Horizontal bands — each system gets a row. Dense, scannable, no cards. Like a Tufte data table crossed with a dashboard. Everything visible in one viewport if possible.</p>
+
+<div class="options-row">
+  <div class="option-card">
+    <div class="option-label"><div class="option-letter">C</div> 12V Monitoring (BM6 connected)</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="screen-content opt-c">
+          <div class="band">
+            <div class="band-header">
+              <span class="band-title">12V Battery</span>
+              <span class="band-status status-good">OK</span>
+            </div>
+            <div class="hero-line">
+              <span class="hero-voltage status-good">12.63</span>
+              <span class="hero-secondary">V &nbsp; 22&deg;C &nbsp; 94%</span>
+            </div>
+            <svg class="sparkline" viewBox="0 0 280 32" preserveAspectRatio="none" style="height: 32px; margin-bottom: 6px;">
+              <line class="threshold threshold-warn" x1="0" y1="20" x2="280" y2="20"/>
+              <polyline class="line" stroke="#4ade80" points="0,14 20,13 40,12 60,14 80,16 100,18 120,20 140,22 160,21 180,18 200,14 220,10 240,7 260,5 280,4"/>
+              <circle cx="280" cy="4" r="2.5" fill="#4ade80"/>
+            </svg>
+            <div class="inline-stats">
+              <span><strong>min</strong> 12.31</span>
+              <span><strong>max</strong> 12.71</span>
+              <span><strong>7d</strong> 12.48</span>
+            </div>
+          </div>
+
+          <div class="band">
+            <div class="band-header">
+              <span class="band-title">EV Battery</span>
+              <span class="band-status" style="color: #333;">Offline</span>
+            </div>
+            <div class="ev-prompt">Connect Veepeak to scan</div>
+          </div>
+
+          <div class="band">
+            <div class="band-header">
+              <span class="band-title">Diagnostics</span>
+              <span class="band-status" style="color: #333;">Offline</span>
+            </div>
+            <div class="ev-prompt">Requires Veepeak connection</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-desc">Three horizontal bands — 12V, EV, Diagnostics. Each band is a self-contained row. Compact. Everything visible without scrolling. The bands expand when data is available.</div>
+  </div>
+
+  <div class="option-card">
+    <div class="option-label"><div class="option-letter">C</div> Full connected state</div>
+    <div class="phone">
+      <div class="phone-screen">
+        <div class="phone-notch"></div>
+        <div class="screen-content opt-c">
+          <div class="band">
+            <div class="band-header">
+              <span class="band-title">12V Battery</span>
+              <span class="band-status status-good">OK</span>
+            </div>
+            <div class="hero-line">
+              <span class="hero-voltage status-good" style="font-size: 40px;">12.63</span>
+              <span class="hero-secondary">V &nbsp; 22&deg;C &nbsp; 94%</span>
+            </div>
+            <svg class="sparkline" viewBox="0 0 280 28" preserveAspectRatio="none" style="height: 28px;">
+              <polyline class="line" stroke="#4ade80" points="0,14 40,12 80,16 120,20 160,21 200,14 240,7 280,4"/>
+              <circle cx="280" cy="4" r="2" fill="#4ade80"/>
+            </svg>
+          </div>
+
+          <div class="band">
+            <div class="band-header">
+              <span class="band-title">EV Battery</span>
+              <span class="band-status status-good">Healthy</span>
+            </div>
+            <div class="compact-row" style="margin-bottom: 6px;">
+              <span class="compact-item"><strong>SOH 96.2%</strong></span>
+              <span class="compact-item"><strong>78%</strong> SOC</span>
+              <span class="compact-item"><strong>356.4V</strong></span>
+            </div>
+            <div class="compact-row">
+              <span class="compact-item">Cells <strong>3.71&ndash;3.73</strong> &Delta;0.02</span>
+              <span class="compact-item">Temp <strong>24&ndash;27&deg;</strong> &Delta;3</span>
+            </div>
+          </div>
+
+          <div class="band">
+            <div class="band-header">
+              <span class="band-title">Diagnostics</span>
+              <span class="band-status" style="color: #555;">0 codes</span>
+            </div>
+            <div class="compact-row">
+              <span class="compact-item"><strong>RPM</strong> 0</span>
+              <span class="compact-item"><strong>Coolant</strong> 71&deg;C</span>
+              <span class="compact-item"><strong>Speed</strong> 0</span>
+            </div>
+            <div class="compact-row" style="margin-top: 4px;">
+              <span class="compact-item"><strong>Intake</strong> 24&deg;C</span>
+              <span class="compact-item"><strong>Load</strong> 0%</span>
+              <span class="compact-item"><strong>MAF</strong> 1.2 g/s</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="option-desc">All three systems visible in one viewport. Maximum information density. Each band grows to fit its data. This is the Bloomberg-terminal-for-your-car option.</div>
+  </div>
+</div>
+
+<!-- ========================================== -->
+<!-- COMPARISON SUMMARY -->
+<!-- ========================================== -->
+<div style="margin-top: 20px; padding: 24px; background: #111; border-radius: 12px; max-width: 840px;">
+  <h2 style="margin-bottom: 16px;">Comparison</h2>
+  <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+    <thead>
+      <tr style="border-bottom: 1px solid #222; color: #888; text-align: left;">
+        <th style="padding: 8px 0;">Trait</th>
+        <th style="padding: 8px 0;">A &mdash; Typographic</th>
+        <th style="padding: 8px 0;">B &mdash; Cards</th>
+        <th style="padding: 8px 0;">C &mdash; Bands</th>
+      </tr>
+    </thead>
+    <tbody style="color: #ccc;">
+      <tr style="border-bottom: 1px solid #1a1a1a;">
+        <td style="padding: 8px 0; color: #888;">Tufte fidelity</td>
+        <td style="padding: 8px 0;">Highest</td>
+        <td style="padding: 8px 0;">Medium</td>
+        <td style="padding: 8px 0;">High</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1a1a1a;">
+        <td style="padding: 8px 0; color: #888;">Bauhaus structure</td>
+        <td style="padding: 8px 0;">Low (fluid)</td>
+        <td style="padding: 8px 0;">Highest</td>
+        <td style="padding: 8px 0;">High</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1a1a1a;">
+        <td style="padding: 8px 0; color: #888;">Glanceability</td>
+        <td style="padding: 8px 0;">Great (hero number)</td>
+        <td style="padding: 8px 0;">Good</td>
+        <td style="padding: 8px 0;">Best (all visible)</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1a1a1a;">
+        <td style="padding: 8px 0; color: #888;">Info density</td>
+        <td style="padding: 8px 0;">Medium</td>
+        <td style="padding: 8px 0;">Medium</td>
+        <td style="padding: 8px 0;">Highest</td>
+      </tr>
+      <tr style="border-bottom: 1px solid #1a1a1a;">
+        <td style="padding: 8px 0; color: #888;">Scroll needed</td>
+        <td style="padding: 8px 0;">Yes, for EV</td>
+        <td style="padding: 8px 0;">Yes, for EV</td>
+        <td style="padding: 8px 0;">Minimal</td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; color: #888;">Feels like</td>
+        <td style="padding: 8px 0;">Data publication</td>
+        <td style="padding: 8px 0;">iOS utility app</td>
+        <td style="padding: 8px 0;">Cockpit readout</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

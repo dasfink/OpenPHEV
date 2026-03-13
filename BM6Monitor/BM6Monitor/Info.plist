@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>BM6 Monitor needs Bluetooth to connect to your BM6 battery sensor and read voltage, temperature, and charge data from your vehicle's 12V battery.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>BM6 Monitor needs Bluetooth to connect to your BM6 battery sensor.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>bluetooth-central</string>
+	</array>
+</dict>
+</plist>

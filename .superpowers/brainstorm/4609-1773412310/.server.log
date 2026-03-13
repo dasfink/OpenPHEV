@@ -1,0 +1,20 @@
+{"type":"server-started","port":60064,"host":"0.0.0.0","url_host":"localhost","url":"http://localhost:60064","screen_dir":"/sessions/trusting-bold-faraday/mnt/claude co-working/BM6 Custom Battery Monitor/.superpowers/brainstorm/4609-1773412310"}
+{"type":"screen-added","file":"/sessions/trusting-bold-faraday/mnt/claude co-working/BM6 Custom Battery Monitor/.superpowers/brainstorm/4609-1773412310/feature-landscape.html"}
+{"type":"server-stopped","reason":"owner process exited"}
+node:fs:1955
+  binding.unlink(getValidatedPath(path));
+          ^
+
+Error: EPERM: operation not permitted, unlink '/sessions/trusting-bold-faraday/mnt/claude co-working/BM6 Custom Battery Monitor/.superpowers/brainstorm/4609-1773412310/.server-info'
+    at Object.unlinkSync (node:fs:1955:11)
+    at shutdown (/sessions/trusting-bold-faraday/mnt/.local-plugins/cache/claude-plugins-official/superpowers/5.0.2/skills/brainstorming/scripts/server.js:301:37)
+    at Timeout._onTimeout (/sessions/trusting-bold-faraday/mnt/.local-plugins/cache/claude-plugins-official/superpowers/5.0.2/skills/brainstorming/scripts/server.js:318:24)
+    at listOnTimeout (node:internal/timers:588:17)
+    at process.processTimers (node:internal/timers:523:7) {
+  errno: -1,
+  code: 'EPERM',
+  syscall: 'unlink',
+  path: '/sessions/trusting-bold-faraday/mnt/claude co-working/BM6 Custom Battery Monitor/.superpowers/brainstorm/4609-1773412310/.server-info'
+}
+
+Node.js v22.22.0

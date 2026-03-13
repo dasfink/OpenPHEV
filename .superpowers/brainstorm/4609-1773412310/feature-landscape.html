@@ -1,0 +1,160 @@
+<h2>What are we replacing?</h2>
+<p class="subtitle">Two devices, two apps, one car — here's the full feature landscape</p>
+
+<div class="split">
+  <div class="mockup">
+    <div class="mockup-header">Quicklynks BM6 App (REPLACING)</div>
+    <div class="mockup-body" style="padding: 16px;">
+      <div style="font-size: 13px;">
+        <p style="margin: 0 0 8px;"><strong style="color: #e74c3c;">&#x26A0; Sends data to Chinese servers</strong></p>
+        <p style="margin: 0 0 12px; color: #888;">BLE sensor on 12V jump terminals</p>
+
+        <div style="margin-bottom: 12px;">
+          <div style="color: #4CAF50; font-weight: 600; margin-bottom: 4px;">&#x2713; Real-time Data</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>Voltage (live)</li>
+            <li>Temperature</li>
+            <li>State of charge %</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="color: #4CAF50; font-weight: 600; margin-bottom: 4px;">&#x2713; Tests</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>Cranking test (voltage drop at start)</li>
+            <li>Charging system test (DC-DC output)</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="color: #4CAF50; font-weight: 600; margin-bottom: 4px;">&#x2713; History &amp; Alerts</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>35-day offline data buffer</li>
+            <li>Voltage history graphs</li>
+            <li>Low voltage push notifications</li>
+            <li>Auto-sync when in BLE range</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="color: #4CAF50; font-weight: 600; margin-bottom: 4px;">&#x2713; Extras</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>Multi-battery profiles</li>
+            <li>Trip timestamps</li>
+            <li>GPS "find my car"</li>
+            <li>Trip recording with route</li>
+          </ul>
+        </div>
+
+        <div>
+          <div style="color: #e74c3c; font-weight: 600; margin-bottom: 4px;">&#x2717; Privacy Nightmare</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>GPS tracking to China</li>
+            <li>Device fingerprinting</li>
+            <li>Cloud account required</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mockup">
+    <div class="mockup-header">Car Scanner ELM OBD2 (REPLACING)</div>
+    <div class="mockup-body" style="padding: 16px;">
+      <div style="font-size: 13px;">
+        <p style="margin: 0 0 8px;"><strong style="color: #f39c12;">$ Paid features, closed source</strong></p>
+        <p style="margin: 0 0 12px; color: #888;">Veepeak OBD-II adapter in cabin port</p>
+
+        <div style="margin-bottom: 12px;">
+          <div style="color: #2196F3; font-weight: 600; margin-bottom: 4px;">&#x2713; Standard OBD-II</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>Read / clear DTCs</li>
+            <li>Live sensor data (RPM, coolant, speed...)</li>
+            <li>Freeze frame data</li>
+            <li>VIN decode</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="color: #2196F3; font-weight: 600; margin-bottom: 4px;">&#x2713; Hyundai Enhanced (via PIDs)</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>Traction battery SOH</li>
+            <li>Individual cell voltages</li>
+            <li>Battery temperatures</li>
+            <li>Cumulative energy in/out</li>
+            <li>12V aux battery cross-reference</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="color: #2196F3; font-weight: 600; margin-bottom: 4px;">&#x2713; Dashboard</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>Custom gauge layouts</li>
+            <li>HUD windshield mode</li>
+            <li>Data logging + CSV export</li>
+            <li>Acceleration testing (0-60)</li>
+          </ul>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+          <div style="color: #2196F3; font-weight: 600; margin-bottom: 4px;">&#x2713; Hyundai Service</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>Brake bleeding procedure</li>
+            <li>Transmission adaptation reset</li>
+            <li>Service interval reset</li>
+          </ul>
+        </div>
+
+        <div>
+          <div style="color: #f39c12; font-weight: 600; margin-bottom: 4px;">&#x26A0; Limitations</div>
+          <ul style="margin: 0; padding-left: 20px; color: #ccc;">
+            <li>Tucson PHEV PIDs not published</li>
+            <li>Must plug adapter into OBD port</li>
+            <li>Manual — not always-on</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<h2 style="margin-top: 32px;">What kind of app do you want to build?</h2>
+<p class="subtitle">This shapes everything — architecture, complexity, and what we tackle first</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>12V Guardian — Focused BM6 Dashboard</h3>
+      <p>A single-purpose app laser-focused on the 12V battery problem. Real-time voltage gauge, history chart, alerts. OBD-II is a "nice to have" tab you'd add later. Think: a beautiful battery widget you glance at.</p>
+      <div class="pros-cons" style="margin-top: 8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Ship fast, solve the real problem</li><li>Minimal dependencies (no ELM327 stack)</li><li>Perfect for open-source — focused scope</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Veepeak sits unused in the app</li><li>Two apps to check your car</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>TucsonKit — Unified Vehicle Monitor</h3>
+      <p>One app, two radios. BM6 tab for always-on 12V monitoring, OBD-II tab for periodic deep diagnostics. Both share a vehicle profile and history. The open-source "PHEV Watchdog for iOS" that doesn't exist yet.</p>
+      <div class="pros-cons" style="margin-top: 8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>One app for everything</li><li>Cross-reference 12V data with traction battery</li><li>Fills a real gap (no iOS PHEV tool exists)</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Larger scope, longer to ship</li><li>Tucson PHEV PIDs need reverse engineering</li><li>SwiftOBD2 dependency to evaluate</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>HyundaiEV — Platform for Hyundai/Kia PHEVs</h3>
+      <p>Think bigger: a general-purpose open-source diagnostic app for all Hyundai/Kia PHEVs and EVs. Pluggable PID packs per vehicle model. BM6 support as a plugin. Community-contributed vehicle profiles.</p>
+      <div class="pros-cons" style="margin-top: 8px;">
+        <div class="pros"><h4>Pros</h4><ul><li>Maximum community impact</li><li>Could become the LeafSpy for Hyundai</li><li>Extensible architecture pays off long-term</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Massive scope — months not weeks</li><li>Need vehicle PIDs from many models</li><li>Risk of never shipping</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

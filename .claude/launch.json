@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "ui-mockups",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "60064", "--directory", ".superpowers/brainstorm/ui-mockups"],
+      "port": 60064
+    }
+  ]
+}
