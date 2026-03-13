@@ -18,6 +18,7 @@ class BLEManager: NSObject, ObservableObject {
     // MARK: - Private
     private var centralManager: CBCentralManager!
     private var store: BatteryStore?
+    private let alertManager = AlertManager()
 
     struct DiscoveredDevice: Identifiable {
         let id: String
@@ -33,17 +34,23 @@ class BLEManager: NSObject, ObservableObject {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
 
-        // Persist readings to SQLite
+        // Persist readings to SQLite and check for low-battery alerts
         bm6.onReading = { [weak self] reading in
-            guard let store = self?.store else { return }
-            let record = BatteryRecord(
-                timestamp: reading.timestamp,
-                voltage: reading.voltage,
-                temperatureC: reading.temperature,
-                socPercent: reading.soc,
-                isCharging: reading.isCharging
-            )
-            try? store.save(reading: record)
+            guard let self = self else { return }
+            if let store = self.store {
+                let record = BatteryRecord(
+                    timestamp: reading.timestamp,
+                    voltage: reading.voltage,
+                    temperatureC: reading.temperature,
+                    socPercent: reading.soc,
+                    isCharging: reading.isCharging
+                )
+                try? store.save(reading: record)
+            }
+            // Check voltage for low-battery alerts
+            if self.alertManager.shouldAlert(voltage: reading.voltage) {
+                self.alertManager.sendAlert(voltage: reading.voltage)
+            }
         }
 
         // Persist EV health snapshots to SQLite

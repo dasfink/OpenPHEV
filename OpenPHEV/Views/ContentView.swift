@@ -1,8 +1,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var ble = BLEManager()
+    @StateObject private var ble: BLEManager
     @State private var stats: BatteryStats?
+
+    init() {
+        let db = try? AppDatabase.openDatabase()
+        let store = db.flatMap { try? BatteryStore(db: $0) }
+        _ble = StateObject(wrappedValue: BLEManager(store: store))
+    }
 
     var body: some View {
         ScrollView {
