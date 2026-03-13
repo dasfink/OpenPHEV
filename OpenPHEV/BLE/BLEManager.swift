@@ -13,6 +13,7 @@ class BLEManager: NSObject, ObservableObject {
 
     // MARK: - Connections
     let bm6 = BM6Connection()
+    let obd = OBDConnection()
 
     // MARK: - Private
     private var centralManager: CBCentralManager!
@@ -43,6 +44,12 @@ class BLEManager: NSObject, ObservableObject {
                 isCharging: reading.isCharging
             )
             try? store.save(reading: record)
+        }
+
+        // Persist EV health snapshots to SQLite
+        obd.onHealthSnapshot = { [weak self] record in
+            guard let store = self?.store else { return }
+            try? store.save(snapshot: record)
         }
     }
 
