@@ -3,10 +3,12 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var ble: BLEManager
     @State private var stats: BatteryStats?
+    private let store: BatteryStore?
 
     init() {
         let db = try? AppDatabase.openDatabase()
         let store = db.flatMap { try? BatteryStore(db: $0) }
+        self.store = store
         _ble = StateObject(wrappedValue: BLEManager(store: store))
     }
 
@@ -90,11 +92,24 @@ struct ContentView: View {
             }
         }
         .background(Theme.background)
+        .onAppear {
+            refreshStats()
+            if ble.bluetoothState == .poweredOn && !ble.bm6.isConnected {
+                ble.scanForBM6()
+            }
+        }
+        .onReceive(ble.bm6.$latestReading) { _ in
+            refreshStats()
+        }
         .sheet(isPresented: .init(
             get: { ble.isScanning || (!ble.bm6.isConnected && !ble.discoveredBM6Devices.isEmpty) },
             set: { if !$0 { ble.stopScanning() } }
         )) {
             DeviceScannerSheet(ble: ble)
         }
+    }
+
+    private func refreshStats() {
+        stats = try? store?.todayStats()
     }
 }

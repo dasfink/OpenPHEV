@@ -12,7 +12,6 @@ class OBDConnection: ObservableObject {
 
     // MARK: - Data
     @Published var troubleCodes: [String] = []
-    @Published var liveData: [String: String] = [:]
     @Published var latestBMSData: BMSHealthData?
 
     // MARK: - Private
@@ -169,9 +168,11 @@ class OBDConnection: ObservableObject {
     // MARK: - Idle Timer
 
     private func resetIdleTimer() {
-        idleTimer?.invalidate()
-        idleTimer = Timer.scheduledTimer(withTimeInterval: idleTimeout, repeats: false) { [weak self] _ in
-            self?.disconnect()
+        DispatchQueue.main.async { [weak self] in
+            self?.idleTimer?.invalidate()
+            self?.idleTimer = Timer.scheduledTimer(withTimeInterval: self?.idleTimeout ?? 300, repeats: false) { [weak self] _ in
+                self?.disconnect()
+            }
         }
     }
 }

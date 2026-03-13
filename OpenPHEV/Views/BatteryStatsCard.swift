@@ -14,7 +14,7 @@ struct BatteryStatsCard: View {
             if let stats = stats {
                 StatRow(label: "Today min", value: String(format: "%.2fV", stats.minVoltage))
                 StatRow(label: "Today max", value: String(format: "%.2fV", stats.maxVoltage))
-                StatRow(label: "Average", value: String(format: "%.2fV", stats.avgVoltage))
+                StatRow(label: "Today avg", value: String(format: "%.2fV", stats.avgVoltage))
             } else {
                 StatRow(label: "Today min", value: "--")
                 StatRow(label: "Today max", value: "--")

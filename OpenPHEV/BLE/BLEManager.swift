@@ -37,15 +37,18 @@ class BLEManager: NSObject, ObservableObject {
         // Persist readings to SQLite and check for low-battery alerts
         bm6.onReading = { [weak self] reading in
             guard let self = self else { return }
+            // Persist on background queue to avoid blocking UI
             if let store = self.store {
-                let record = BatteryRecord(
-                    timestamp: reading.timestamp,
-                    voltage: reading.voltage,
-                    temperatureC: reading.temperature,
-                    socPercent: reading.soc,
-                    isCharging: reading.isCharging
-                )
-                try? store.save(reading: record)
+                DispatchQueue.global(qos: .utility).async {
+                    let record = BatteryRecord(
+                        timestamp: reading.timestamp,
+                        voltage: reading.voltage,
+                        temperatureC: reading.temperature,
+                        socPercent: reading.soc,
+                        isCharging: reading.isCharging
+                    )
+                    try? store.save(reading: record)
+                }
             }
             // Check voltage for low-battery alerts
             if self.alertManager.shouldAlert(voltage: reading.voltage) {
@@ -57,6 +60,13 @@ class BLEManager: NSObject, ObservableObject {
         obd.onHealthSnapshot = { [weak self] record in
             guard let store = self?.store else { return }
             try? store.save(snapshot: record)
+        }
+
+        // Prune readings older than 90 days on launch
+        if let store = store {
+            DispatchQueue.global(qos: .utility).async {
+                try? store.pruneOlderThan(days: 90)
+            }
         }
     }
 
@@ -98,7 +108,12 @@ class BLEManager: NSObject, ObservableObject {
 extension BLEManager: CBCentralManagerDelegate {
 
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
-        DispatchQueue.main.async { self.bluetoothState = central.state }
+        DispatchQueue.main.async {
+            self.bluetoothState = central.state
+            if central.state == .poweredOn && !self.bm6.isConnected {
+                self.scanForBM6()
+            }
+        }
     }
 
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
